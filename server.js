@@ -14,25 +14,30 @@ server.on('connection', client => {
 
   client.on('data', command => {
     console.log(command);
-    
+   
+    // help command
     if (command === 'help') {
       client.write("All Commands:\n  download <filename> (self explanatory)\n  list (lists all files available)\n  help (see this again)");
-    }
-
-    else if (command.toLowerCase().startsWith("list")) {
+   
+      // list command 
+    } else if (command.toLowerCase().startsWith("list")) {
       let allFiles = "All Available Files:";
       fs.readdir('./server_files', (err, files) => {
         files.forEach((file,index) => allFiles += `\n ${index}  ${file}`);
         client.write(allFiles);
       });
-    }
 
-    else if (command.toLowerCase().startsWith("download ")) {
+      // download command
+    } else if (command.toLowerCase().startsWith("download ")) {
       const fname = command.replace(/download /, '');
       client.write(fname);
-    }
 
-    else {
+      // check validity of file name
+      // how do I send a file rather than print to console? header?
+      // if file name is valid send to client
+
+      // any other peice of text
+    } else {
       client.write(`${command} is not a valid command`);
     }
 
